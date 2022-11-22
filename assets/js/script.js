@@ -24,6 +24,8 @@ var createTask = function (taskText, taskDate, taskList) {
   $("#list-" + taskList).append(taskLi);
 };
 
+
+//LOAD TASKS
 var loadTasks = function () {
   //tasks are loaded using the JSON.parse() method to convert the data into a JavaScript object
   tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -48,13 +50,15 @@ var loadTasks = function () {
   });
 };
 
+
+//SAVE TASKS FUNCTION
 //tasks are saved using the JSON.stringify() method to convert the values from JavaScript object into a string
 var saveTasks = function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 
-//EDIT TEXT FUNCTIONS
+//FUNCTIONS TO EDIT TEXT
 // delegating clicks to the parent <ul> with class list-group
 $('.list-group').on('click', 'p', function () {
   //With $ character we can convert "this" into a jQuery object
@@ -72,10 +76,11 @@ $('.list-group').on('click', 'p', function () {
   //console.log(text);
 });
 
+//FUNCTIONS TO EDIT TEXT CONTINUE
 $(".list-group").on("blur", "textarea", function () {
-  ////we need to collect some data: current value of the element, parent element's ID, and element's position in the list
+  //we need to collect some data: current value of the element, parent element's ID, and element's position in the list
 
-  // get the textarea's current value/text
+  //get the textarea's current value/text
   var text = $(this)
     .val()
     .trim();
@@ -111,7 +116,7 @@ $(".list-group").on("blur", "textarea", function () {
 })
 
 
-//EDIT DATE FUNCTIONS
+//FUNCTIONS TO EDIT DATE
 $('.list-group').on('click', 'span', function () {
   // get current text
   let date = $(this)
@@ -132,6 +137,7 @@ $('.list-group').on('click', 'span', function () {
   dateInput.trigger('focus');
 })
 
+//FUNCTIONS TO EDIT DATE CONTINUE
 //value of due date was changed
 $('.list-group').on('blur', "input[type='text']", function () {
   //get current text
@@ -164,6 +170,98 @@ $('.list-group').on('blur', "input[type='text']", function () {
 })
 
 
+//FUNCTIONS FOR SORTABLES AND SAVE AFTER SORTING
+//Converting columns into sortables and save changes
+$('.card .list-group').sortable({
+  //connectWith property links the sortable lists with any other from the same class
+  connectWith: $('.card .list-group'),
+  scroll: false,
+  tolerance: "pointer",
+  //The helper event creates a copy of the dragged element and move the copy instead of the original. This is necessary to prevent click events from accidentally triggering on the original element.
+  helper: "clone",
+  //The activate and deactivate events trigger once for all connected lists as soon as dragging starts and stops.
+  activate: function (event) {
+    console.log("activate", this);
+  },
+  deactivate: function (event) {
+    console.log("deactivate", this);
+  },
+  //The over and out events trigger when a dragged item enters or leaves a connected list.
+  over: function (event) {
+    console.log("over", event.target);
+  },
+  out: function (event) {
+    console.log("out", event.target);
+  },
+
+  //The update event triggers when the contents of a list have changed (e.g., the items were re-ordered, an item was removed, or an item was added).
+  update: function (event) {
+    //Declaring a new array to store the task data before the looping starts
+    var tempArr = [];
+
+    //loop over current set of children in sortable list
+    //jQuery's each() method will run a callback function for every item/element in the array. It's another form of looping, except that a function is now called on each loop iteration. The potentially confusing part of this code is the second use of $(this). Inside the callback function, $(this) actually refers to the child element at that index.
+    //Loop over current set of children in sortable list
+    $(this).children().each(function () {
+      //console.log($(this));
+
+      var text = $(this)
+        .find("p")
+        .text()
+        .trim();
+
+      var date = $(this)
+        .find("span")
+        .text()
+        .trim();
+
+      //Adding task data to the temp array as an object
+      tempArr.push({
+        text: text,
+        date: date
+      });
+      //console.log(text, date);
+    })
+    //console.log("update", this);
+    //Console logging a jQuery variable (e.g. $(this)) will display more information
+    //The children() method returns an array of the list element's children (the <li> elements, labeled as li.list-group-item)
+    //console.log($(this).children());
+    console.log(tempArr);
+
+    //trim down list's ID to match object property
+    let arrName = $(this)
+      .attr('id')
+      .replace("list-", "");
+
+    //Update array on tasks object and save
+    tasks[arrName] = tempArr;
+    saveTasks();
+  }
+})
+
+
+//FUNCTIONS TO DELETE ON REMOVE ELEMENT
+$("#trash").droppable({
+  accept: '.card .list-group-item',
+  tolerance: "touch",
+  drop: function (event, ui) {
+    //draggable is a jQuery object representing the draggable element, therefore we can call DOM methods on it
+    ui.draggable.remove();
+    //When we remove an object with the remove method we don't need to save again as jQuery triggers a sortable update() which saves the updates.
+    console.log("drop");
+  },
+  over: function (event, ui) {
+    console.log("over");
+  },
+  out: function (event, ui) {
+    console.log("out");
+  }
+  // $(this)
+  //   .addClass("ui-state-highlight");
+});
+
+
+//MODAL
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function () {
   // clear values
