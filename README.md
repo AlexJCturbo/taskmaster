@@ -9,7 +9,9 @@
 
 
 ## Project Description
-Expand an application called Taskmaster. Using the existing codebase from the first version, the project consisted in bringing a new design with new features. First, incorporate the ability to edit tasks. Using jQuery UI, dragging and dropping functionality was implemented within and between the status columns. The delete function was also added using dragging. The due date for each task is now editable and the layout was updated to be responsive for new statuses based on the current date. The project also includes a redesign of the application that makes enhances the user experience.
+Expand an application called Taskmaster, using the existing codebase from the first version. The project consisted in creating a new design that incorporates new features, resulting in an improved user experience.
+
+The project adds the ability to edit tasks and dates. Using jQuery UI, dragging and dropping functionality was implemented within and between the status columns. The delete function was also implemented using dragging and dropping on a specific delete area. The due date for each task is now editable and the Datepicker input field was integrated. The layout was updated to be responsive for new statuses based on the current date. The project also includes a redesign of the application that makes enhances the user experience.
 ###### [Back to Index](#Table-of-Contents)
 
 
@@ -24,7 +26,11 @@ SO THAT I can create, update (using drag/drop) and delete tasks, while improving
 
 
 ## Screen Captures
-![Taskmaster 01 main](./utils/images/text_editor_01_main.png)
+![Taskmaster 01 main](./utils/images/taskmaster_01_main.png)
+
+![Taskmaster 02 add task](./utils/images/taskmaster_02_add_task.png)
+
+![Taskmaster 03 dragging a task](./utils/images/taskmaster_03_drag_drop.png)
 ###### [Back to Index](#Table-of-Contents)
 
 
@@ -38,6 +44,5 @@ SO THAT I can create, update (using drag/drop) and delete tasks, while improving
 
 
 ## Links
-- [Deployed Application]()
-- [GitHub Repository]()
+- [Deployed Application](https://alexjcturbo.github.io/taskmaster/)
 ###### [Back to Index](#Table-of-Contents)
