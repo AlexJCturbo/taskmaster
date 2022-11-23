@@ -9,6 +9,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
   <!-- jQuery UI style sheet -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Iconify -->
+  <!-- <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script> -->
 
   <link rel="stylesheet" href="./assets/css/style.css" />
   <title>Taskmaster Pro</title>
@@ -17,12 +28,19 @@
 <body>
   <div class="row min-vh-100 no-gutters">
     <header class="col-12 col-lg-3 bg-info text-light sticky-top d-flex flex-column p-4 p-lg-3">
-      <h1 class="text-center">Taskmaster Pro Edition</h1>
+      <h1 class="text-center">
+        <i class="fa-solid fa-clipboard-check d-inline d-lg-none"></i> Taskmaster Pro Edition
+      </h1>
       <!-- Bootstrap uses a custom data-target attribute to connect a button to the modal that it opens -->
-      <button id="create-task" type="button" class="btn btn-block btn-dark" data-toggle="modal"
-        data-target="#task-form-modal">Add Task</button>
-      <button id="remove-tasks" class="btn btn-block btn-danger">Delete All Tasks</button>
-      <p class="mt-auto d-none d-lg-block">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi voluptas
+      <button id="create-task" type="button" class="btn btn-block btn-add" data-toggle="modal"
+        data-target="#task-form-modal">
+        <!-- <iconify-icon icon="material-symbols:add" class="mr-2"></iconify-icon> -->
+        <i class="fa-sharp fa-solid fa-plus mr-2"></i>Add Task
+      </button>
+      <button id="remove-tasks" class="btn btn-block btn-delete">
+        <i class="fa-regular fa-trash-can mr-2"></i>Delete All Tasks</button>
+      <i class="fa-solid fa-clipboard-check display-1 text-center mb-2 d-none d-lg-block mt-auto"></i>
+      <p class="d-none d-lg-block">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi voluptas
         architecto ipsa excepturi aut non laudantium sequi fugit officiis optio deleniti asperiores rem eius laborum
         maxime blanditiis culpa, quis iste?
       </p>
@@ -81,9 +99,9 @@
       </div>
 
       <!-- Trash section -->
-      <div id="trash" class="mt-auto">
-        <div class="w-100 bg-danger p-3 text-center text-light display-4">
-          Drop Here to Remove.
+      <div id="trash" class="mt-auto overflow-hidden">
+        <div class="w-100 p-3 text-center bottom-trash">
+          <i class="fa-regular fa-trash-can mx-auto mb-4"></i>Drop Here to Remove.
         </div>
       </div>
 
@@ -114,8 +132,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save Task</button>
+          <button type="button" class="btn btn-close" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-save">Save Task</button>
         </div>
       </div>
     </div>

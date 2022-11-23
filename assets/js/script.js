@@ -199,17 +199,23 @@ $('.card .list-group').sortable({
   helper: "clone",
   //The activate and deactivate events trigger once for all connected lists as soon as dragging starts and stops.
   activate: function (event) {
-    console.log("activate", this);
+    $(this).addClass('dropover')
+    $('.bottom-trash').addClass('bottom-trash-drag')
+    //console.log("activate", this);
   },
   deactivate: function (event) {
-    console.log("deactivate", this);
+    $(this).removeClass('dropover')
+    $('.bottom-trash').removeClass('bottom-trash-drag')
+    //console.log("deactivate", this);
   },
   //The over and out events trigger when a dragged item enters or leaves a connected list.
   over: function (event) {
-    console.log("over", event.target);
+    $(event.target).addClass('dropover-active')
+    //console.log("over", event.target);
   },
   out: function (event) {
-    console.log("out", event.target);
+    $(event.target).removeClass('dropover-active')
+    //console.log("out", event.target);
   },
 
   //The update event triggers when the contents of a list have changed (e.g., the items were re-ordered, an item was removed, or an item was added).
@@ -244,7 +250,7 @@ $('.card .list-group').sortable({
     //Console logging a jQuery variable (e.g. $(this)) will display more information
     //The children() method returns an array of the list element's children (the <li> elements, labeled as li.list-group-item)
     //console.log($(this).children());
-    console.log(tempArr);
+    //console.log(tempArr);
 
     //trim down list's ID to match object property
     let arrName = $(this)
@@ -265,14 +271,17 @@ $("#trash").droppable({
   drop: function (event, ui) {
     //draggable is a jQuery object representing the draggable element, therefore we can call DOM methods on it
     ui.draggable.remove();
+    $('.bottom-trash').removeClass('bottom-trash-active')
     //When we remove an object with the remove method we don't need to save again as jQuery triggers a sortable update() which saves the updates.
-    console.log("drop");
+    //console.log("drop");
   },
   over: function (event, ui) {
-    console.log("over");
+    $('.bottom-trash').addClass('bottom-trash-active')
+    //console.log("over");
   },
   out: function (event, ui) {
-    console.log("out");
+    $('.bottom-trash').removeClass('bottom-trash-active')
+    //console.log("out");
   }
   // $(this)
   //   .addClass("ui-state-highlight");
@@ -286,14 +295,14 @@ var auditTask = function (taskEl) {
   // get date from task element
   var date = $(taskEl).find("span").text().trim();
   //To ensure element is getting to the function
-  console.log(date);
+  //console.log(date);
 
   //convert to moment object at 5:00pm
   //moment().format('L');   -->   11/22/2022
   //Once we get that date information we pass that value into the moment() function to turn it into a Moment object. We use the date variable from taskEl to make a new Moment object, configured for the user's local time using moment(date, "L"). Because the date variable does not specify a time of day (for example, "11/23/2019"), the Moment object will default to 12:00am. Because work usually doesn't end at 12:00am, we convert it to 5:00pm of that day instead, using the .set("hour", 17) method. In this case, the value 17 is in 24-hour time, so it's 5:00pm.
   var time = moment(date, "L").set("hour", 17);
   // this should print out an object for the value of the date variable, but at 5:00pm of that date
-  console.log(time);
+  //console.log(time);
 
   //Remove any old classes from element with the removeClass() method
   $(taskEl).removeClass('list-group-item-warning list-group-item-danger');
@@ -307,8 +316,16 @@ var auditTask = function (taskEl) {
   } else {
     $(taskEl).addClass('list-group-item-info');
   }
+
+  console.log(taskEl)
 };
 
+//TIME INTERVAL
+setInterval(function () {
+  $(".card .list-group-item").each(function (index, el) {
+    auditTask(el);
+  });
+}, (1000 * 60 * 30));
 
 //MODAL
 // modal was triggered
@@ -328,7 +345,7 @@ $('#modalDueDate').datepicker({
 });
 
 //Save button in modal was clicked
-$("#task-form-modal .btn-primary").click(function () {
+$("#task-form-modal .btn-save").click(function () {
   // get form values
   var taskText = $("#modalTaskDescription").val();
   var taskDate = $("#modalDueDate").val();
@@ -358,6 +375,14 @@ $("#remove-tasks").on("click", function () {
   }
   saveTasks();
 });
+
+// setTimeout(function () {
+//   alert("This message happens after 5 seconds!");
+// }, 5000);
+
+// setInterval(function () {
+//   alert("This alert shows up every five seconds!");
+// }, 5000);
 
 // load tasks for the first time
 loadTasks();
