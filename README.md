@@ -9,7 +9,7 @@
 
 
 ## Project Description
-
+Expand an application called Taskmaster. Using the existing codebase from the first version, the project consisted in bringing a new design with new features. First, incorporate the ability to edit tasks. Using jQuery UI, dragging and dropping functionality was implemented within and between the status columns. The delete function was also added using dragging. The due date for each task is now editable and the layout was updated to be responsive for new statuses based on the current date. The project also includes a redesign of the application that makes enhances the user experience.
 ###### [Back to Index](#Table-of-Contents)
 
 
