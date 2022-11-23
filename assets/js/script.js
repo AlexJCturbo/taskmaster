@@ -1,6 +1,10 @@
 // jQuery provides shorter methods to find and manipulate DOM elements, add event listeners, and perform other common JavaScript-related tasks.
 //$ is equivalent to document.querySelector()
 
+$(document).ready(function () {
+  $("#currentDay").text(moment().format("MMMM Do YYYY"));
+});
+
 var tasks = {};
 
 //FUCNTION TO CREATE A TASK
@@ -18,6 +22,9 @@ var createTask = function (taskText, taskDate, taskList) {
 
   // APPEND span and p element to parent li
   taskLi.append(taskSpan, taskP);
+
+  // check due date
+  auditTask(taskLi);
 
   //The (taskText, taskDate, "toDo") data points create a <li> element (with child <span> and <p> elements) that is appended to a <ul> element
   //append to ul list on the page
@@ -119,9 +126,7 @@ $(".list-group").on("blur", "textarea", function () {
 //FUNCTIONS TO EDIT DATE
 $('.list-group').on('click', 'span', function () {
   // get current text
-  let date = $(this)
-    .text()
-    .trim();
+  let date = $(this).text().trim();
 
   // create date input element
   let dateInput = $('<input>')
@@ -133,13 +138,23 @@ $('.list-group').on('click', 'span', function () {
   // swap out elements
   $(this).replaceWith(dateInput);
 
+  // enable jquery ui datepicker
+  dateInput.datepicker({
+    minDate: 0,
+    onClose: function () {
+      // when calendar is closed, force a "change" event on the `dateInput`
+      $(this).trigger("change");
+    }
+  });
+
   // automatically focus on new element
-  dateInput.trigger('focus');
+  dateInput.trigger("focus");
 })
 
 //FUNCTIONS TO EDIT DATE CONTINUE
-//value of due date was changed
-$('.list-group').on('blur', "input[type='text']", function () {
+//Edited blur event listener and added a change event instead.
+// $('.list-group').on('blur', "input[type='text']", function () {
+$('.list-group').on('change', "input[type='text']", function () {
   //get current text
   let date = $(this)
     .val()
@@ -167,6 +182,9 @@ $('.list-group').on('blur', "input[type='text']", function () {
 
   //replace input with span element
   $(this).replaceWith(taskSpan);
+
+  //Pass task's <li> element into auditTask() to check new due date
+  auditTask($(taskSpan).closest('.list-group-item'));
 })
 
 
@@ -261,6 +279,37 @@ $("#trash").droppable({
 });
 
 
+//FUNCTIONS FOR DUE DATE AUDITS
+var auditTask = function (taskEl) {
+  //we need to check what date was added to the <span> element. This will involve two actions. First, we need to use jQuery to retrieve the date stored in that <span> element. Second, we need to use the moment() function to convert that date value into a Moment object.
+
+  // get date from task element
+  var date = $(taskEl).find("span").text().trim();
+  //To ensure element is getting to the function
+  console.log(date);
+
+  //convert to moment object at 5:00pm
+  //moment().format('L');   -->   11/22/2022
+  //Once we get that date information we pass that value into the moment() function to turn it into a Moment object. We use the date variable from taskEl to make a new Moment object, configured for the user's local time using moment(date, "L"). Because the date variable does not specify a time of day (for example, "11/23/2019"), the Moment object will default to 12:00am. Because work usually doesn't end at 12:00am, we convert it to 5:00pm of that day instead, using the .set("hour", 17) method. In this case, the value 17 is in 24-hour time, so it's 5:00pm.
+  var time = moment(date, "L").set("hour", 17);
+  // this should print out an object for the value of the date variable, but at 5:00pm of that date
+  console.log(time);
+
+  //Remove any old classes from element with the removeClass() method
+  $(taskEl).removeClass('list-group-item-warning list-group-item-danger');
+
+  //Apply new class if task is near/over due date
+  if (moment().isAfter(time)) {
+    $(taskEl).addClass('list-group-item-danger');
+    //.diff() method used to get the difference of right now to a day in the future and will return a negative number. Therefore we use the .abs() method to get the absolute value of the number
+  } else if (Math.abs(moment().diff(time, 'days')) <= 2) {
+    $(taskEl).addClass('list-group-item-warning');
+  } else {
+    $(taskEl).addClass('list-group-item-info');
+  }
+};
+
+
 //MODAL
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function () {
@@ -274,7 +323,11 @@ $("#task-form-modal").on("shown.bs.modal", function () {
   $("#modalTaskDescription").trigger("focus");
 });
 
-// save button in modal was clicked
+$('#modalDueDate').datepicker({
+  minDate: 0
+});
+
+//Save button in modal was clicked
 $("#task-form-modal .btn-primary").click(function () {
   // get form values
   var taskText = $("#modalTaskDescription").val();

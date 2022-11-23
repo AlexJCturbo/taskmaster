@@ -15,6 +15,9 @@
 
 ## User Story
 ```
+AS A web developer working on a task-management application
+I WANT to enhance an existing codebase and expand the application functionality and capabilities using jQuery
+SO THAT I can create, update (using drag/drop) and delete tasks, while improving the user experience.
 
 ```
 ###### [Back to Index](#Table-of-Contents)
