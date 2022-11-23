@@ -18,9 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
     integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Iconify -->
-  <!-- <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script> -->
-
+  <!-- CSS -->
   <link rel="stylesheet" href="./assets/css/style.css" />
   <title>Taskmaster Pro</title>
 </head>
@@ -31,10 +29,8 @@
       <h1 class="text-center">
         <i class="fa-solid fa-clipboard-check d-inline d-lg-none"></i> Taskmaster Pro Edition
       </h1>
-      <!-- Bootstrap uses a custom data-target attribute to connect a button to the modal that it opens -->
       <button id="create-task" type="button" class="btn btn-block btn-add" data-toggle="modal"
         data-target="#task-form-modal">
-        <!-- <iconify-icon icon="material-symbols:add" class="mr-2"></iconify-icon> -->
         <i class="fa-sharp fa-solid fa-plus mr-2"></i>Add Task
       </button>
       <button id="remove-tasks" class="btn btn-block btn-delete">
@@ -56,46 +52,30 @@
             <ul id="list-toDo" class="list-group list-group-flush"> </ul>
           </div>
         </div>
-        <!--To do end -->
         <!--In progress section -->
         <div class="col-12 col-md-6 col-xl-3 mb-3">
           <div class="card">
             <h4 class="card-header text-light bg-info">In Progress</h4>
             <ul id="list-inProgress" class="list-group list-group-flush">
-              <!-- <li class="list-group-item">
-                <span class="badge badge-primary badge-pill">05/28/2020</span>
-                <p class="m-1">Sample task in progress</p>
-              </li> -->
             </ul>
           </div>
         </div>
-        <!--In progress end -->
         <!--In review section -->
         <div class="col-12 col-md-6 col-xl-3 mb-3">
           <div class="card">
             <h4 class="card-header text-light bg-info">In Review</h4>
             <ul id="list-inReview" class="list-group list-group-flush">
-              <!-- <li class="list-group-item">
-                <span class="badge badge-primary badge-pill">05/28/2020</span>
-                <p class="m-1">Sample task in review</p>
-              </li> -->
             </ul>
           </div>
         </div>
-        <!--In review end -->
         <!--Done section-->
         <div class="col-12 col-md-6 col-xl-3 mb-3">
           <div class="card">
             <h4 class="card-header text-light bg-info">Done</h4>
             <ul id="list-done" class="list-group list-group-flush">
-              <!-- <li class="list-group-item">
-                <span class="badge badge-primary badge-pill">05/28/2020</span>
-                <p class="m-1">Sample task that's done</p>
-              </li> -->
             </ul>
           </div>
         </div>
-        <!--Done end -->
       </div>
 
       <!-- Trash section -->
@@ -151,7 +131,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <!-- Moment.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
+  <!-- JS -->
   <script src="./assets/js/script.js"></script>
 </body>
 
